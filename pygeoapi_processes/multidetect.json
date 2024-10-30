@@ -27,7 +27,7 @@
     "inputs": {
         "input_data": {
             "title": "Input table",
-            "description": "URL to the input table containing the data to be cleaned from outliers: Data sets for multiple or single species after of extraction of environment predictors.",
+            "description": "URL to the input table containing the data to be cleaned from outliers: Data sets for multiple or single species after extraction of environment predictors.",
             "schema": {
                 "type": "string"
             },
@@ -45,9 +45,9 @@
             "maxOccurs": 1,
             "keywords": ["column"]
         },
-        "multiple_species": {
-            "title": "True or False: Distinguish between multiple species?",
-            "description": "If \"true\", the method will distinguish species.... - for details ask Anthony/BOKU.",
+        "multiple": {
+            "title": "true or false: to handle with multiple or single species datasets",
+            "description": "If \"false\", and the user is developing species distribution models, then only one species is expected. However, if more than one species is considered then the parameter should be set to \"true \" and the species data must be provided in a single data frame but with a column of species names or a list of separate species data. If \" a single data frame is provided then the \" colsp \" is necessary to capture the column with the species individual names. ",
             "schema": {
                 "type": "boolean"
             },
@@ -55,9 +55,19 @@
             "maxOccurs": 1,
             "keywords": []
         },
-        "colname_exclude": {
-            "title": "Column name: Exclude",
-            "description": "Column name identifying the column containing the variable to be exluded, e.g. \"Species\". TODO Ask Anthony: one or several?. Exclude variables that should not be considered in the fitting the one class model, for example x and y columns or latitude/longitude or any column that the user doesn't want to consider.",
+        "colsp": {
+            "title": "necessary is multiple is set to \"true\" ",
+            "description": "This parameter is mandatory if the parameter \"multiple \" is set to \"true\" and the species data is specifically a data frame of multiple species, not lists. The parameter takes in a string of column name with species names",
+            "schema": {
+                "type": "string"
+            },
+            "minOccurs": 1,
+            "maxOccurs": 1,
+            "keywords": []
+        },
+        "colnames_to_exclude": {
+            "title": "Identify which columns are not necessary in the analysis.",
+            "description": "Exclude variables that should not be considered in the fitting the one class model, for example, x and y columns or latitude/longitude or any column that the user doesn't want to consider. This is necessary if using multivariate methods such as isolation forest that will consider all the numerical columns in the dataset as necessary variables.",
             "schema": {
                 "type": "string"
             },
@@ -88,7 +98,7 @@
         },
         "missingness": {
             "title": "Missingness",
-            "description": "Allowed missing values in a column to allow a user decide whether to remove the individual columns or rows from the data sets. Default 0.1. Therefore, if a column has more than 10 % missing values, then it will be removed from the dataset rather than the rows.",
+            "description": "Allowed missing values in a column to allow a user to decide whether to remove the individual columns or rows from the data sets. Default 0.1. Therefore, if a column has more than 10 % missing values, then it will be removed from the dataset rather than the rows.",
             "schema": {
                 "type": "number"
             },
@@ -109,8 +119,8 @@
     },
     "outputs": {
         "cleaned_data": {
-            "title": "Cleaned data (?)",
-            "description": "A table .",
+            "title": "Cleaned dataset",
+            "description": "A table.",
             "schema": {
                 "type": "object",
                 "contentMediaType": "application/json"
